@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h3 class="text-center mb-4">Book Details</h3>
+
+<div class="d-flex justify-content-center">
+    <div class="card shadow-lg" style="width: 18rem;">
+        <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.title }}" style="border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
+        <div class="card-body text-center">
+            <h5 class="card-title text-primary">{{ book.title }}</h5>
+            <p class="card-text"><strong>Price:</strong> ₹{{ book.price }}</p>
+            <p class="card-text"><small class="text-muted">Author: {{ book.author }}</small></p>
+            <a href="{% url 'addtocart' book.id %}" class="btn btn-warning rounded-pill">Add to Cart</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

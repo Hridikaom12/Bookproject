@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Cart</title>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Your Shopping Cart</h2>
+
+        {% if not cart_items %}
+            <div class="alert alert-warning" role="alert">
+                Your cart is empty. Start adding books!
+            </div>
+        {% else %}
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Book Name</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ item.book.title }}</td>
+                        <td>{{ item.book.author }}</td>
+                        <td>${{ item.book.price }}</td>
+                        <td>
+                            <a href="{% url 'remove_cart' item.id %}" class="btn btn-danger btn-sm">Remove</a>
+                            <a href="{% url 'decrease_quantity' item.id %}" class="btn btn-secondary btn-sm">-</a>
+                            <input type="number" name="quantity" value="{{ item.quantity }}" class="form-control d-inline-block" style="width: 60px;" readonly> 
+                            <a href="{% url 'increase_quantity' item.id %}" class="btn btn-secondary btn-sm">+</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+  
+
+        </div>
+    </div>
+        {% endif %}
+        <form action="{% url 'create-checkout-session' %}" method="post">
+            {% csrf_token %}
+            <div class="card shadow-sm mx-auto" style="width: 20rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title font-weight-bold">Total Products: {{ total_items }}</h5>
+                    <h6 class="card-subtitle mb-3 text-muted">Total Price: ${{ total_price }}</h6>
+                    <button id="checkout-button" type="submit" class="btn btn-success btn-lg btn-block">Proceed to Checkout</button>
+                </div>
+            </div>
+        </form>
+        
+       
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
